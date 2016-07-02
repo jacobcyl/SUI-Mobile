@@ -6160,13 +6160,30 @@ Device/OS Detection
             this.$pageContent.parents('.content').on('scroll', this._scrollHandler.bind(this));
             this.$pageContent.on('active', '.tab-link', this._tabLinkHandler.bind(this));
         },
-        _tabLinkHandler: function(ev) {
+        // _tabLinkHandler: function(ev) {
+        //     var isFixed = $(ev.target).parents('.buttons-fixed').length > 0;
+        //     var fixedTop = this.options.fixedTop;
+        //     var offset = this.options.offset;
+        //     $.refreshScroller();
+        //     if (!isFixed) return;
+        //     this.$pageContent.parents('.content').scrollTop(fixedTop - offset);
+        // },
+        _tabLinkHandler: function(ev){
             var isFixed = $(ev.target).parents('.buttons-fixed').length > 0;
             var fixedTop = this.options.fixedTop;
             var offset = this.options.offset;
+            var currentTab = this.$pageContent.find('.active');
             $.refreshScroller();
             if (!isFixed) return;
-            this.$pageContent.parents('.content').scrollTop(fixedTop - offset);
+    
+            if(this.$pageContent.hasClass('scroll-keep')) {
+                var scrollPosition = currentTab.data('scroll');
+                scrollPosition = scrollPosition>0?scrollPosition:(fixedTop - offset);
+                this.$pageContent.parents('.content').scrollTop(scrollPosition);
+            }
+            else {
+                this.$pageContent.parents('.content').scrollTop(fixedTop - offset);
+            }
         },
         // 滚动核心代码
         _scrollHandler: function(ev) {
