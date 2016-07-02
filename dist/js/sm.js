@@ -6549,7 +6549,12 @@ Device/OS Detection
 
     }
     $.attachInfiniteScroll = function(infiniteContent) {
-        $.getScroller(infiniteContent).on('scroll', handleInfiniteScroll);
+        //$.getScroller(infiniteContent).on('scroll', handleInfiniteScroll);
+        for (var i = 0; i < infiniteContent.length; i++)
+        {
+            if($(infiniteContent[i]).hasClass('tab'))
+                $.getScroller($(infiniteContent[i])).on('scroll', handleInfiniteScroll);
+        }
     };
     $.detachInfiniteScroll = function(infiniteContent) {
         $.getScroller(infiniteContent).off('scroll', handleInfiniteScroll);
